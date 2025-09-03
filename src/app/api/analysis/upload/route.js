@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '../../../../lib/supabase'
+import { supabase } from '../../../../lib/supabase'
 import formidable from 'formidable'
 import { promises as fs } from 'fs'
 import Papa from 'papaparse'
@@ -207,13 +207,11 @@ function calculateCorrelation(x, y) {
 
 export async function POST(request) {
   try {
-    const supabase = createServerClient()
     
     const formData = await request.formData()
     const user_id = formData.get('user_id')
     const file = formData.get('file')
 
-    console.log("user is",user_id);
 
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 })

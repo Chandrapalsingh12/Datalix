@@ -1,6 +1,7 @@
 // src/lib/stores/chatStore.js
 import { create } from 'zustand'
 import { supabase } from '../supabase'
+import { forceRefresh } from '../refreshSession'
 
 export const useChatStore = create((set, get) => ({
   messages: [],
@@ -12,6 +13,7 @@ export const useChatStore = create((set, get) => ({
 
   fetchChatRooms: async () => {
     set({ roomsLoading: true })
+    // await forceRefresh()
     const { data, error } = await supabase
       .from('chat_rooms')
       .select(`
